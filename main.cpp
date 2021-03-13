@@ -3,7 +3,8 @@
 int main()
 {
 	DataBase db1("orders.csv", "order_items.csv", "products.csv");
-	db1.MostProfitableProduct("2021-01-01");
+	//db1.MostProfitableProduct("2021-01-01");
+	db1.MostProfitableProducts();
 
 	/*map<string, int> myMap;
 	myMap["123"]=1;

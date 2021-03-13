@@ -10,15 +10,32 @@ DataBase::DataBase(string c_OrdersFilePath, string c_OrderFilesFilePath, string 
 
 void DataBase::MostProfitableProducts()
 {
-
+	cout << "Products, that have made max profit on the date:" << endl;
+	string dateBase = "2021-01-";
+	for (int i = 1; i <= 31; i++)
+	{
+		string date = dateBase + to_string(i / 10) + to_string(i % 10);
+		//cout << date << endl;
+		cout << "Date: " << date<<". ";
+		MostProfitableProduct(date);
+		
+	}
 }
 
 void DataBase::MostProfitableProduct(string date)
 {
-	auto ab = productProfit(productOrdersCount(ordersIDs(date)));
-	for (auto it = ab.begin(); it != ab.end(); it++)
+	int max = 0;
+
+	auto resultMap = productProfit(productOrdersCount(ordersIDs(date)));
+	for (auto it = resultMap.begin(); it != resultMap.end(); it++)
 	{
-		cout << it->first << " " << it->second << endl;
+		if (it->second > max)
+			max = it->second;
+	}
+	for (auto it = resultMap.begin(); it != resultMap.end(); it++)
+	{
+		if (it->second == max)
+			cout << "Product: " << it->first << ", Profit: " << it->second << endl;
 	}
 }
 
