@@ -11,12 +11,11 @@ class DataBase
 {
 
 private:
-	vector<string> ordersIDs;
 	string OrdersFilePath;
 	string OrderItemsFilePath;
 	string ProductsFilePath;	
 	vector<string> ordersIDs(string);
-	map<string, int> productOrdersCount(vector<string>&);
+	map<string, int> productOrdersCount(vector<string>);
 
 public:
 	DataBase(string c_OrdersFilePath, string c_OrderItemsFilePath, string c_ProductsFilePath);

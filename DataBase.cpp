@@ -15,8 +15,13 @@ void DataBase::MostProfitableProducts()
 
 void DataBase::MostProfitableProduct(string date)
 {
-	for (string i : ordersIDs(date))
-		cout << i << endl;
+	/*for (string i : ordersIDs(date))
+		cout << i << endl;*/
+	auto  map = productOrdersCount(ordersIDs(date));
+	for (auto it = map.begin(); it != map.end(); it++)
+	{
+		cout << it->first << " " << it->second << endl;
+	}
 
 }
 
@@ -39,12 +44,42 @@ vector<string> DataBase::ordersIDs(string date)
 	return ordersIDsVector;
 }
 
-map<string, int> DataBase::productOrdersCount(vector<string>& ordersIDsVector)
+map<string, int> DataBase::productOrdersCount(vector<string> ordersIDsVector)
 {
 	map<string, int> productOrdersCountMap;
-
-	indexQuote = 
-
+	ifstream orderItemsFile(OrderItemsFilePath);
+	string line;
+	int indexCommaFirst, indexCommaSecond, count;
+	string orderID, productID, countStr;
+	while (getline(orderItemsFile, line))
+	{
+		indexCommaFirst = line.find_first_of(',');
+		indexCommaSecond = line.find_last_of(',');
+		//cout << indexCommaFirst << " " << indexCommaSecond<<endl;
+		orderID = line.substr(0, indexCommaFirst);
+		productID = line.substr(indexCommaFirst + 1, (indexCommaSecond - 1) - indexCommaFirst);
+		countStr = line.substr(indexCommaSecond+1);
+		for (string id : ordersIDsVector)
+		{
+			if (id == orderID)
+			{
+				if (productOrdersCountMap[productID] == NULL)
+				{
+					count = stoi(countStr);
+					productOrdersCountMap[productID] = count;
+					
+				}
+				else
+				{
+					count = stoi(countStr);
+					productOrdersCountMap[productID] += count;
+					cout << productOrdersCountMap[productID] << endl;
+				}
+			
+			}
+		}
+		
+	}
 
 	return productOrdersCountMap;
 }
