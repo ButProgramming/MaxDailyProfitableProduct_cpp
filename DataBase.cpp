@@ -4,8 +4,7 @@ DataBase::DataBase(string c_OrdersFilePath, string c_OrderFilesFilePath, string 
 	: OrdersFilePath(c_OrdersFilePath)
 	, OrderItemsFilePath(c_OrderFilesFilePath)
 	, ProductsFilePath(c_ProductsFilePath)
-{	//cout << OrdersFilePath <<" "<<OrderItemsFilePath << " " << ProductsFilePath ;
-}
+{}
 
 
 void DataBase::MostProfitableProducts()
@@ -15,7 +14,6 @@ void DataBase::MostProfitableProducts()
 	for (int i = 1; i <= 31; i++)
 	{
 		string date = dateBase + to_string(i / 10) + to_string(i % 10);
-		//cout << date << endl;
 		cout << "Date: " << date<<". ";
 		MostProfitableProduct(date);
 		
@@ -69,7 +67,6 @@ map<string, int> DataBase::productOrdersCount(vector<string> ordersIDsVector)
 	{
 		indexCommaFirst = line.find_first_of(',');
 		indexCommaSecond = line.find_last_of(',');
-		//cout << indexCommaFirst << " " << indexCommaSecond<<endl;
 		orderID = line.substr(0, indexCommaFirst);
 		productID = line.substr(indexCommaFirst + 1, (indexCommaSecond - 1) - indexCommaFirst);
 		countStr = line.substr(indexCommaSecond+1);
@@ -87,7 +84,6 @@ map<string, int> DataBase::productOrdersCount(vector<string> ordersIDsVector)
 				{
 					count = stoi(countStr);
 					productOrdersCountMap[productID] += count;
-					//cout << productOrdersCountMap[productID] << endl;
 				}
 			
 			}
