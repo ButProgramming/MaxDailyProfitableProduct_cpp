@@ -15,14 +15,11 @@ void DataBase::MostProfitableProducts()
 
 void DataBase::MostProfitableProduct(string date)
 {
-	/*for (string i : ordersIDs(date))
-		cout << i << endl;*/
-	auto  map = productOrdersCount(ordersIDs(date));
-	for (auto it = map.begin(); it != map.end(); it++)
+	auto ab = productProfit(productOrdersCount(ordersIDs(date)));
+	for (auto it = ab.begin(); it != ab.end(); it++)
 	{
 		cout << it->first << " " << it->second << endl;
 	}
-
 }
 
 vector<string> DataBase::ordersIDs(string date)
@@ -73,7 +70,7 @@ map<string, int> DataBase::productOrdersCount(vector<string> ordersIDsVector)
 				{
 					count = stoi(countStr);
 					productOrdersCountMap[productID] += count;
-					cout << productOrdersCountMap[productID] << endl;
+					//cout << productOrdersCountMap[productID] << endl;
 				}
 			
 			}
@@ -82,4 +79,38 @@ map<string, int> DataBase::productOrdersCount(vector<string> ordersIDsVector)
 	}
 
 	return productOrdersCountMap;
+}
+
+map<string, int> DataBase::productProfit(map<string, int> productOrdersCount)
+{
+	map<string, int> productProfitMap;
+	ifstream productsFile(ProductsFilePath);
+	string line;
+	int indexCommaFirst, indexCommaSecond, price;
+	string productID, nameOfProduct, priceStr;
+	while (getline(productsFile, line))
+	{
+		indexCommaFirst = line.find_first_of(',');
+		indexCommaSecond = line.find_last_of(',');
+		productID = line.substr(0, indexCommaFirst-0);
+		nameOfProduct = line.substr(indexCommaFirst+1, (indexCommaSecond-1)-indexCommaFirst);
+		priceStr = line.substr(indexCommaSecond + 1);
+		for (auto it = productOrdersCount.begin(); it != productOrdersCount.end(); it++)
+		{
+			if (it->first == productID)
+			{
+				if (productProfitMap[nameOfProduct] == NULL)
+				{
+					price = stoi(priceStr);
+					productProfitMap[nameOfProduct] = it->second * price;
+				}
+				else
+				{
+					price = stoi(priceStr);
+					productProfitMap[nameOfProduct] = it->second * price;
+				}
+			}
+		}
+	}
+	return productProfitMap;
 }
